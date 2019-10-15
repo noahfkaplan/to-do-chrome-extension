@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Checkbox from '@material-ui/core/Checkbox';
 import Input from '@material-ui/core/Input';
@@ -13,21 +13,13 @@ const useStyles = makeStyles(theme => ({
     },
   }));
 
-const ListItem = () =>{
+const ListItem = (props) =>{
     const classes = useStyles();
-    const [checked, setChecked] = useState(false);
-    const [itemText, setItemText] = useState("");    
-    const handleCheckChange = event => {
-        setChecked( event.target.checked );
-    };
-    const handleItemTextChange = event => {
-        setItemText( event.target.value );
-    }    
     return(
         <div>
             <Checkbox
-                checked={checked}
-                onChange={handleCheckChange}
+                checked={props.checked}
+                onChange={props.onCheckChange}
                 value="checked"
                 inputProps={{
                     'aria-label': 'primary checkbox',
@@ -35,8 +27,8 @@ const ListItem = () =>{
             />
             <Input
                 placeholder={"Placeholder Text"}
-                value={itemText}
-                onChange={handleItemTextChange}
+                value={props.text}
+                onChange={props.handleTextChange}
                 className={classes.input}
                 inputProps={{
                     'aria-label': 'description',
