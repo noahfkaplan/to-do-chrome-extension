@@ -7,6 +7,8 @@ const setup = (initialListItems) => {
 };
 
 describe("List Area", () => {
+    afterEach(cleanup);
+
     it.each([
         [0, []],
         [1, [{ id: 0, text: "default item", checked: false }]],
