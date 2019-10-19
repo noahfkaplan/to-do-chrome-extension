@@ -20,9 +20,11 @@ const ListItem = (props) =>{
             <Checkbox
                 checked={props.checked}
                 onChange={props.onCheckChange()}
-                value="checked"
+                aria-checked={props.checked}
+                value={props.text}
+                title={"checkbox"}
                 inputProps={{
-                    'aria-label': 'primary checkbox',
+                    'aria-label': props.text + " checkbox",
                 }}
             />
             <Input
@@ -31,7 +33,7 @@ const ListItem = (props) =>{
                 onChange={props.onTextChange()}
                 className={classes.input}
                 inputProps={{
-                    'aria-label': 'description',
+                    'aria-label': props.text + " textarea",
                 }}
             />
         </div>

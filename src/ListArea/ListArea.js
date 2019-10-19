@@ -1,15 +1,14 @@
 import React, { useState } from 'react';
 import ListItem from '../ListItem'
 
-const ListArea = () => {
-    const [list, setList] = useState([{ id: 0, text: "default item", checked: false }]);
+const ListArea = (props) => {
+    const [list, setList] = useState(props.initialListItems);
     
     const handleCheckChange = id => event => {
         setList(
             list.map(item => item.id === id ? {...item, checked: event.target.checked} : item )
         );
     };
-    
     const handleTextChange = id => event => {
         setList(
             list.map(item => item.id === id ? {...item, text: event.target.value}: item )
