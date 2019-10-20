@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import ListItem from '../ListItem'
-
+import { Fab } from '@material-ui/core';
+import AddIcon from '@material-ui/icons/Add';
 const ListArea = (props) => {
     const [list, setList] = useState(props.initialListItems);
     
@@ -12,6 +13,11 @@ const ListArea = (props) => {
     const handleTextChange = id => event => {
         setList(
             list.map(item => item.id === id ? {...item, text: event.target.value}: item )
+        );
+    }
+    const handleAddItem = () => {
+        setList(
+            list.concat({id: list.length, text: "", checked: false })
         );
     }
 
@@ -26,6 +32,9 @@ const ListArea = (props) => {
                     checked = {item.checked}>
                 </ListItem>
             })}
+            <Fab size="small" color="primary" aria-label="add">
+                <AddIcon onClick={() => handleAddItem()}/>
+            </Fab>
         </div>
     );
 }
