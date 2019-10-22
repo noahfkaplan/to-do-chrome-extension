@@ -32,8 +32,8 @@ const ListArea = (props) => {
                     checked = {item.checked}>
                 </ListItem>
             })}
-            <Fab size="small" color="primary" aria-label="add">
-                <AddIcon onClick={() => handleAddItem()}/>
+            <Fab size="small" color="primary" onClick={() => handleAddItem()}>
+                <AddIcon aria-label="add"/>
             </Fab>
         </div>
     );

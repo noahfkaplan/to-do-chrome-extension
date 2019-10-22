@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, cleanup } from '@testing-library/react';
+import { render, cleanup, fireEvent, wait, queryAllByText } from '@testing-library/react';
 import ListArea from './ListArea';
 
 const setup = (initialListItems) => {
@@ -27,5 +27,17 @@ describe("List Area", () => {
             const {queryAllByLabelText} = setup(initialItems);
             const rows = queryAllByLabelText("default item checkbox");
             expect(rows.length).toBe(expectedRowCount);            
+    });
+
+    it("adds new item when add button is clicked", async () => {
+        const {queryAllByTitle, getByLabelText, debug} = setup([]);
+        const initialRows = queryAllByTitle("checkbox");
+        expect(initialRows.length).toBe(0);
+
+        const addButton = getByLabelText("add");
+        fireEvent.click(addButton);
+
+        const totalRows = queryAllByTitle("checkbox");
+        expect(totalRows.length).toBe(1);
     });
 });
