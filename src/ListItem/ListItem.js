@@ -2,6 +2,8 @@ import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Checkbox from '@material-ui/core/Checkbox';
 import Input from '@material-ui/core/Input';
+import {Fab} from '@material-ui/core'
+import EditIcon from '@material-ui/icons/Edit'
 
 const useStyles = makeStyles(theme => ({
     container: {
@@ -36,6 +38,9 @@ const ListItem = (props) =>{
                     'aria-label': props.text + " textarea",
                 }}
             />
+            <Fab size="small" color="secondary" aria-label="edit" className={classes.fab}>
+                <EditIcon />
+            </Fab>
         </div>
     );
 }
