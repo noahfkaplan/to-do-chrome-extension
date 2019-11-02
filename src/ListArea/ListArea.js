@@ -2,8 +2,11 @@ import React, { useState } from 'react';
 import ListItem from '../ListItem'
 import { Fab } from '@material-ui/core';
 import AddIcon from '@material-ui/icons/Add';
+import EditListItem from '../EditListItem'
+
 const ListArea = (props) => {
     const [list, setList] = useState(props.initialListItems);
+    const [content, setContent] = useState("list") //list or edit
     
     const handleCheckChange = id => event => {
         setList(
@@ -15,13 +18,20 @@ const ListArea = (props) => {
             list.map(item => item.id === id ? {...item, text: event.target.value}: item )
         );
     }
-    const handleAddItem = () => {
+    const handleSaveItem = (description, url) => {
+        console.log(description);
+        setContent("list");
         setList(
-            list.concat({id: list.length, text: "", checked: false })
+            list.concat({id: list.length, text: description, checked: false })
         );
     }
 
+    const handleAddItem = () => {
+        setContent("edit");
+    }
+
     return(
+        content === "list"?
         <div className = 'mainArea'>
             {list.map(item => {
                 return <ListItem
@@ -35,7 +45,8 @@ const ListArea = (props) => {
             <Fab size="small" color="primary" onClick={() => handleAddItem()}>
                 <AddIcon aria-label="add"/>
             </Fab>
-        </div>
+        </div> :
+        <EditListItem description = "" url = "" onClick = {handleSaveItem}/>
     );
 }
 

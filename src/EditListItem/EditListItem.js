@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import clsx from 'clsx';
 import TextField from '@material-ui/core/TextField';
 import { makeStyles } from '@material-ui/core/styles';
@@ -17,27 +17,32 @@ const useStyles = makeStyles(theme => ({
   }));
 
 const EditListItem = (props) => {
+    const [url, setUrl] = useState(props.url);
+    const [description, setDescription] = useState(props.description);
     const classes = useStyles;
     return(
         <div className = 'mainArea'>
             <TextField
                 id="standard-dense"
                 label="Description"
-                defaultValue={props.description}
                 className={clsx(classes.textField, classes.dense)}
                 margin="dense"
+                value={description}
+                onChange={(event) => setDescription(event.target.value)}
             />
             <TextField
                 id="standard-dense"
                 label="URL (optional)"
-                defaultValue={props.url}
                 className={clsx(classes.textField, classes.dense)}
                 margin="dense"
+                value={url}
+                onChange={(event) => setUrl(event.target.value)}
             />
             <Button
                 variant="contained"
                 color="primary"
                 size="small"
+                onClick={() => props.onClick(description, url)}
                 startIcon={<SaveIcon />}
             >
                 Save
