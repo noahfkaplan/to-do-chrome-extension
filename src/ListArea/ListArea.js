@@ -39,7 +39,8 @@ const ListArea = (props) => {
                     onCheckChange = {() => handleCheckChange(item.id)} 
                     onTextChange = {() => handleTextChange(item.id)} 
                     text = {item.text} 
-                    checked = {item.checked}>
+                    checked = {item.checked}
+                    url = {item.url}>
                 </ListItem>
             })}
             <Fab size="small" color="primary" onClick={() => handleAddItem()}>
