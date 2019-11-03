@@ -19,10 +19,9 @@ const ListArea = (props) => {
         );
     }
     const handleSaveItem = (description, url) => {
-        console.log(description);
         setContent("list");
         setList(
-            list.concat({id: list.length, text: description, checked: false })
+            list.concat({id: list.length, text: description, url: url, checked: false })
         );
     }
 
