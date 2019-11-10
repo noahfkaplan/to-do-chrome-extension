@@ -11,9 +11,12 @@ const useStyles = makeStyles(theme => ({
       display: 'flex',
       flexWrap: 'wrap',
     },
-    input: {
-      margin: theme.spacing(1),
-    },
+    // input: {
+    //   margin: theme.spacing(1),
+    // },
+    link: {
+        margin: '10px',
+    }
   }));
 
 const ListItem = (props) =>{
