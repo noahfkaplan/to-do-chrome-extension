@@ -42,7 +42,7 @@ const ListItem = (props) =>{
                     'aria-label': props.text + " textarea",
                 }}
             /> */}
-            <Link href={props.url} color="inherit" className={classes.link}>
+            <Link href={props.url} color="inherit" target="_blank" className={classes.link}>
                 {props.text}
             </Link>
             <Fab size="small" color="secondary" aria-label="edit" className={classes.fab}>
