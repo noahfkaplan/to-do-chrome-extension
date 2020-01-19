@@ -30,14 +30,13 @@ describe("List Area", () => {
     });
 
     it("opens the EditListItem menu when add button is clicked", async () => {
-        const {queryAllByTitle, getByLabelText, queryByText } = setup([]);
+        const {queryAllByTitle, getByLabelText, getByText } = setup([]);
         const initialRows = queryAllByTitle("checkbox");
         expect(initialRows.length).toBe(0);
 
         const addButton = getByLabelText("add");
         fireEvent.click(addButton);
 
-        const totalRows = queryByText("Save");
-        expect(totalRows.length).toBe(1);
+        getByText("Save");
     });
 });
