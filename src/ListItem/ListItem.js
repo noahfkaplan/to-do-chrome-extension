@@ -1,24 +1,31 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Checkbox from '@material-ui/core/Checkbox';
-import Input from '@material-ui/core/Input';
+//import Input from '@material-ui/core/Input';
+import Link from '@material-ui/core/Link';
 import {Fab} from '@material-ui/core'
 import EditIcon from '@material-ui/icons/Edit'
 
 const useStyles = makeStyles(theme => ({
     container: {
-      display: 'flex',
-      flexWrap: 'wrap',
+        display: 'flex',
+        flexDirection: 'row',
+        alignItems: 'center'
     },
-    input: {
-      margin: theme.spacing(1),
+    link: {
+        wordWrap: 'Normal',
+        padding: '10px',
+        flex: 1,
     },
+    fab: {
+        float: 'right',
+    }
   }));
 
 const ListItem = (props) =>{
     const classes = useStyles();
     return(
-        <div>
+        <div className={classes.container}>
             <Checkbox
                 checked={props.checked}
                 onChange={props.onCheckChange()}
@@ -29,16 +36,10 @@ const ListItem = (props) =>{
                     'aria-label': props.text + " checkbox",
                 }}
             />
-            <Input
-                placeholder={"Placeholder Text"}
-                value={props.text}
-                onChange={props.onTextChange()}
-                className={classes.input}
-                inputProps={{
-                    'aria-label': props.text + " textarea",
-                }}
-            />
-            <Fab size="small" color="secondary" aria-label="edit" className={classes.fab}>
+            <Link href={props.url} color="inherit" target="_blank" className={classes.link}>
+                {props.text}
+            </Link>
+            <Fab onClick = {() => props.onEdit()}size="small" color="secondary" aria-label="edit" className={classes.fab}>
                 <EditIcon />
             </Fab>
         </div>
