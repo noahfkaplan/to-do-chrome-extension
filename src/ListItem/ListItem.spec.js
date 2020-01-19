@@ -29,9 +29,7 @@ describe("List Item", () =>{
         const onCheck = jest.fn();
         const text = "test text";
         const link = "http://www.google.com"
-        const { getByText, debug } = setup(text, false, onCheck, link);
-
-        debug();
+        const { getByText } = setup(text, false, onCheck, link);
 
         const itemDescription = getByText(text);
         
