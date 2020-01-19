@@ -22,4 +22,4 @@ steps:
   - task: PowerShell@2
     inputs:
       targetType: 'inline'
-      script: 'npm build'
+      script: 'npm run-script build'
