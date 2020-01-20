@@ -10,11 +10,13 @@ const useStyles = makeStyles(theme => ({
     container: {
         display: 'flex',
         flexDirection: 'row',
-        alignItems: 'center'
+        alignItems: 'center',
+        margin: '8px',
     },
     link: {
         wordWrap: 'Normal',
         padding: '10px',
+        fontSize: '22px',
         flex: 1,
     },
     fab: {

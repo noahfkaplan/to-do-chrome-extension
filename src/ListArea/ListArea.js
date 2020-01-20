@@ -14,7 +14,8 @@ const defaultItem = {
 
 const useStyles = makeStyles(theme => ({
     fab: {
-        float: 'right'
+        float: 'right',
+        margin: '10px',
     }
 }));
 
