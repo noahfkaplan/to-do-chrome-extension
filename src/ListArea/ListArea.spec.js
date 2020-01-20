@@ -39,4 +39,23 @@ describe("List Area", () => {
 
         getByText("Save");
     });
+
+    it("removed list item when edit button is clicked, and delete selected", () => {
+        const { getAllByLabelText, queryAllByTitle, getByText } = setup(
+            [{ id: 0, text: "default item", checked: false },
+            { id: 1, text: "default item2", checked: false }]
+        );
+        const initialRows = queryAllByTitle("checkbox");
+        expect(initialRows.length).toBe(2)
+
+        const editButton = getAllByLabelText("edit");
+        fireEvent.click(editButton[0]);
+
+        const deleteButton = getByText("Delete");
+        fireEvent.click(deleteButton);
+
+        const rows = queryAllByTitle("checkbox");
+        expect(rows.length).toBe(1)
+
+    });
 });
