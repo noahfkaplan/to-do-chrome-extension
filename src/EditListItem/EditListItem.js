@@ -8,9 +8,12 @@ import { makeStyles } from '@material-ui/core/styles';
 const useStyles = makeStyles(theme => ({
     buttonArea: {
         display: 'flex',
-        justifyContent: 'space-between',
+        justifyContent: 'flex-end',
+    },
+    button: {
         marginTop: '10px',
-    }
+        marginLeft: '10px',
+    },
 }));
 
 
@@ -41,6 +44,7 @@ const EditListItem = (props) => {
             <div className = {classes.buttonArea}>
                 {props.item && 
                     <Button
+                        className={classes.button}
                         variant="contained"
                         color="secondary"
                         size="small"
@@ -51,6 +55,7 @@ const EditListItem = (props) => {
                     </Button>
                 }
                 <Button
+                    className={classes.button}
                     variant="contained"
                     color="primary"
                     size="small"
