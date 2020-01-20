@@ -5,13 +5,6 @@ import { makeStyles } from '@material-ui/core/styles';
 import AddIcon from '@material-ui/icons/Add';
 import EditListItem from '../EditListItem'
 
-const defaultItem = {
-     id: -1, 
-     text: "",
-     checked: false,
-     url: "",
-}
-
 const useStyles = makeStyles(theme => ({
     fab: {
         float: 'right',
@@ -23,7 +16,7 @@ const ListArea = (props) => {
     const classes = useStyles();
     const [list, setList] = useState(props.initialListItems);
     const [content, setContent] = useState("list") //list or edit
-    const [activeListItem, setActiveListItem] = useState(defaultItem)
+    const [activeListItem, setActiveListItem] = useState(null)
     
     const handleCheckChange = id => event => {
         setList(
@@ -36,7 +29,7 @@ const ListArea = (props) => {
     }
     const handleSaveItem = (description, url) => {
         setContent("list");
-        if(activeListItem === defaultItem){
+        if(!activeListItem){
             setList(
                 list.concat({id: list.length, text: description, url: url, checked: false })
             );
@@ -45,8 +38,16 @@ const ListArea = (props) => {
             setList(
                 list.map(item => item.id === activeListItem.id ? {...item, text: description, url: url} : item )
             );
-            setActiveListItem(defaultItem);
+            setActiveListItem(null);
         }
+    }
+
+    const handleDelete = (id) => {
+        setContent("list");
+        setList(
+            list.filter(item => item.id !== id)
+        );
+        setActiveListItem(null);
     }
 
     const handleAddItem = () => {
@@ -70,7 +71,7 @@ const ListArea = (props) => {
                 <AddIcon aria-label="add"/>
             </Fab>
         </div> :
-        <EditListItem item = {activeListItem} onSave = {handleSaveItem}/>
+        <EditListItem item = {activeListItem} onSave = {handleSaveItem} onDelete = {() => handleDelete(activeListItem.id)}/>
     );
 }
 
