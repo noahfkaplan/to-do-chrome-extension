@@ -23,7 +23,7 @@ const EditListItem = (props) => {
             <TextField
                 label="Description"
                 margin="dense"
-                value={description}
+                defaultValue={description}
                 onChange={(event) => setDescription(event.target.value)}
                 InputProps={{
                     "aria-label": "editDescription"
@@ -32,7 +32,7 @@ const EditListItem = (props) => {
             <TextField
                 label="URL (optional)"
                 margin="dense"
-                value={url}
+                defaultValue={url}
                 onChange={(event) => setUrl(event.target.value)}
                 InputProps={{
                     "aria-label": "editUrl"
