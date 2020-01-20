@@ -17,7 +17,7 @@ const useStyles = makeStyles(theme => ({
         wordWrap: 'Normal',
         padding: '10px',
         fontSize: '20px',
-        fontWeight: 'lighter',
+        fontWeight: 'normal',
         flex: 1,
     },
     fab: {
