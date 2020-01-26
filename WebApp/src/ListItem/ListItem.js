@@ -1,7 +1,6 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Checkbox from '@material-ui/core/Checkbox';
-//import Input from '@material-ui/core/Input';
 import Link from '@material-ui/core/Link';
 import {Fab} from '@material-ui/core'
 import EditIcon from '@material-ui/icons/Edit'
@@ -30,9 +29,9 @@ const ListItem = (props) =>{
     return(
         <div className={classes.container}>
             <Checkbox
-                checked={props.checked}
+                checked={props.completed}
                 onChange={props.onCheckChange()}
-                aria-checked={props.checked}
+                aria-checked={props.completed}
                 value={props.text}
                 title={"checkbox"}
                 inputProps={{

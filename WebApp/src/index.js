@@ -4,6 +4,6 @@ import './index.css';
 import ListArea from './ListArea';
 
 ReactDOM.render(
-    <ListArea initialListItems = {[{ id: 0, text: "default item", checked: false, url: "http://www.google.com" }]}/>,
+    <ListArea />,
     document.getElementById('root')
 );
