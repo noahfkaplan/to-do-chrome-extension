@@ -4,7 +4,7 @@ import { Fab } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import AddIcon from '@material-ui/icons/Add';
 import EditListItem from '../EditListItem'
-import {GetListItemsByListId} from '../Api/Services'
+import ListService from '../api/Services'
 
 const useStyles = makeStyles(theme => ({
     fab: {
@@ -24,8 +24,8 @@ const ListArea = () => {
 
     useEffect(() => {
         async function fetchData() {            
-            let listItems = await GetListItemsByListId(0);            
-            console.log(listItems)
+            const listService = new ListService();
+            let listItems = await listService.GetListItemsByListId(0);
             setList(listItems);
         }
         fetchData();

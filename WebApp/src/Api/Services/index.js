@@ -1,1 +1,3 @@
-export {GetListItemsByListId} from './ListService'
+import ListService from './ListService'
+
+export default ListService
