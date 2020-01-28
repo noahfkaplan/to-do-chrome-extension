@@ -1,22 +1,31 @@
 import React from 'react';
-import { render, cleanup, fireEvent } from '@testing-library/react';
+import { render, cleanup, fireEvent, wait } from '@testing-library/react';
 import ListArea from './ListArea';
+import ListService from '../api/Services/ListService'
 
-const setup = (initialListItems) => {
-    return render(<ListArea initialListItems = {initialListItems}/>);
-};
+const mockGetListItemsByListId = jest.fn();
+jest.mock('../api/Services/ListService', () => {
+  return jest.fn().mockImplementation(() => {
+    return {GetListItemsByListId: mockGetListItemsByListId};
+  });
+});
 
 describe("List Area", () => {
     afterEach(cleanup);
+    beforeEach(() => {
+        ListService.mockClear();
+        mockGetListItemsByListId.mockClear();
+    })
 
-    it.each([
-        [0, []],
-        [1, [{ id: 0, text: "default item", checked: false }]],
-        [2, [{ id: 0, text: "default item", checked: false },{ id: 1, text: "default item", checked: false }]]])
-        ("renders correct number of text areas for %p initial list items", (expectedRowCount, initialItems) => {
-            const {queryAllByLabelText} = setup(initialItems);
-            const rows = queryAllByLabelText("default item checkbox");
-            expect(rows.length).toBe(expectedRowCount);            
+    it.only("renders correct number of text areas for one initial list item", async () => {
+            mockGetListItemsByListId.mockImplementation((num) => {
+                return([{"completed":false,"id":0,"listId":0,"text":"Default Item","url":"http://www.google.com"}])
+            })
+            const {queryAllByLabelText, debug} = render(<ListArea />);
+            await wait(() => queryAllByLabelText("Default Item checkbox").length > 0);
+            debug();
+            const rows = queryAllByLabelText("Default Item checkbox");
+            expect(rows.length).toBe(1);            
     });
 
     it.each([
