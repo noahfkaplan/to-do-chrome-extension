@@ -17,54 +17,52 @@ describe("List Area", () => {
         mockGetListItemsByListId.mockClear();
     })
 
-    it.only("renders correct number of text areas for one initial list item", async () => {
-            mockGetListItemsByListId.mockImplementation((num) => {
-                return([{"completed":false,"id":0,"listId":0,"text":"Default Item","url":"http://www.google.com"}])
-            })
-            const {queryAllByLabelText, debug} = render(<ListArea />);
-            await wait(() => queryAllByLabelText("Default Item checkbox").length > 0);
-            debug();
-            const rows = queryAllByLabelText("Default Item checkbox");
-            expect(rows.length).toBe(1);            
-    });
-
-    it.each([
-        [0, []],
-        [1, [{ id: 0, text: "default item", checked: false }]],
-        [2, [{ id: 0, text: "default item", checked: false },{ id: 1, text: "default item", checked: false }]]])
-        ("renders correct number of checkboxes for %p initial list items", (expectedRowCount, initialItems) => {
-            const {queryAllByLabelText} = setup(initialItems);
-            const rows = queryAllByLabelText("default item checkbox");
-            expect(rows.length).toBe(expectedRowCount);            
+    it.each([1, 2, 3])("renders correct number of text areas for %p initial list item", async (numItems) => {
+        const defaultItems = []
+        for(let i = 0; i < numItems; i++){
+            defaultItems.push({"completed": false,"id": i,"listId": 0,"text": "Default Item","url": "http://www.google.com"})
+        }
+        mockGetListItemsByListId.mockImplementation((num) => {
+            return defaultItems;
+        })
+        const {queryAllByLabelText} = render(<ListArea />);
+        await wait(() => queryAllByLabelText("Default Item checkbox").length > 0);
+        const rows = queryAllByLabelText("Default Item checkbox");
+        expect(rows.length).toBe(numItems);            
     });
 
     it("opens the EditListItem menu when add button is clicked", async () => {
-        const {queryAllByTitle, getByLabelText, getByText } = setup([]);
-        const initialRows = queryAllByTitle("checkbox");
-        expect(initialRows.length).toBe(0);
+        mockGetListItemsByListId.mockImplementation((num) => {
+            return [{"completed": false,"id": 1,"listId": 0,"text": "Default Item","url": "http://www.google.com"}];
+        })
+        const {queryAllByLabelText, getByLabelText, findByText } = render(<ListArea />);
+        await wait(() => getByLabelText("Default Item checkbox"));
+        const rows = queryAllByLabelText("Default Item checkbox");
+        expect(rows.length).toBe(1);
 
         const addButton = getByLabelText("add");
         fireEvent.click(addButton);
 
-        getByText("Save");
+        await findByText("Save");
     });
 
-    it("removed list item when edit button is clicked, and delete selected", () => {
-        const { getAllByLabelText, queryAllByTitle, getByText } = setup(
-            [{ id: 0, text: "default item", checked: false },
-            { id: 1, text: "default item2", checked: false }]
-        );
-        const initialRows = queryAllByTitle("checkbox");
-        expect(initialRows.length).toBe(2)
+    it("removed list item when edit button is clicked, and delete selected", async () => {
+        const defaultItems = []
+        for(let i = 0; i < 2; i++){
+            defaultItems.push({"completed": false,"id": i,"listId": 0,"text": "Default Item","url": "http://www.google.com"})
+        }
+        mockGetListItemsByListId.mockImplementation((num) => {
+            return defaultItems;
+        })
+        const { getAllByLabelText, findByText } = render(<ListArea/>);
+        await wait(() => expect(getAllByLabelText("Default Item checkbox").length).toBe(2));
 
         const editButton = getAllByLabelText("edit");
         fireEvent.click(editButton[0]);
 
-        const deleteButton = getByText("Delete");
+        const deleteButton = await findByText("Delete");
         fireEvent.click(deleteButton);
 
-        const rows = queryAllByTitle("checkbox");
-        expect(rows.length).toBe(1)
-
+        await wait(() => expect(getAllByLabelText("Default Item checkbox").length).toBe(1));
     });
 });

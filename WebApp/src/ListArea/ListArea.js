@@ -69,8 +69,8 @@ const ListArea = () => {
 
     return(
         content === "list"?        
-        list && <div className = 'mainArea'>
-            {list.map(item => {
+        <div className = 'mainArea'>
+            {list && list.map(item => {
                 return <ListItem
                     key = {item.id} 
                     onCheckChange = {() => handleCheckChange(item.id)} 
