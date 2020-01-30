@@ -35,8 +35,8 @@ describe("List Area", () => {
         mockGetListItemsByListId.mockImplementation((num) => {
             return [{"completed": false,"id": 1,"listId": 0,"text": "Default Item","url": "http://www.google.com"}];
         })
-        const {queryAllByLabelText, getByLabelText, findByText } = render(<ListArea />);
-        await wait(() => getByLabelText("Default Item checkbox"));
+        const {queryAllByLabelText, getByLabelText, findByText, findByLabelText} = render(<ListArea />);
+        await findByLabelText("Default Item checkbox");
         const rows = queryAllByLabelText("Default Item checkbox");
         expect(rows.length).toBe(1);
 
