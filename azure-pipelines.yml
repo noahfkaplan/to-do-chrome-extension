@@ -22,9 +22,22 @@ steps:
   - task: PowerShell@2
     inputs:
       targetType: 'inline'
-      script: 'npm run-script build'
+      script: |
+        cd WebApp
+        npm run-script build
     
   - task: PowerShell@2
     inputs:
       targetType: 'inline'
-      script: '($env:CI = "true") -and (npm test)'
+      script: |
+        cd WebApp
+        ($env:CI = "true") -and (npm test)
+  
+  - task: PowerShell@2
+    inputs:
+      targetType: 'inline'
+      script: |
+        # Write your PowerShell commands here.
+        
+        cd webapp
+        Write-Host "Hello World"
