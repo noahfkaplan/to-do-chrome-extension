@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import ListItem from '../ListItem'
 import { Fab } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import AddIcon from '@material-ui/icons/Add';
 import EditListItem from '../EditListItem'
+import ListService from '../api/Services/ListService'
 
 const useStyles = makeStyles(theme => ({
     fab: {
@@ -12,15 +13,27 @@ const useStyles = makeStyles(theme => ({
     }
 }));
 
-const ListArea = (props) => {    
+
+
+const ListArea = () => { 
+       
     const classes = useStyles();
-    const [list, setList] = useState(props.initialListItems);
+    const [list, setList] = useState(null);
     const [content, setContent] = useState("list") //list or edit
-    const [activeListItem, setActiveListItem] = useState(null)
+    const [activeListItem, setActiveListItem] = useState(null);
+
+    useEffect(() => {
+        async function fetchData() {            
+            const listService = new ListService();
+            let listItems = await listService.GetListItemsByListId(0);
+            setList(listItems);
+        }
+        fetchData();
+    }, []);
     
     const handleCheckChange = id => event => {
         setList(
-            list.map(item => item.id === id ? {...item, checked: event.target.checked} : item )
+            list.map(item => item.id === id ? {...item, completed: event.target.checked} : item )
         );
     };
     const handleEdit = id => {
@@ -31,7 +44,7 @@ const ListArea = (props) => {
         setContent("list");
         if(!activeListItem){
             setList(
-                list.concat({id: list.length, text: description, url: url, checked: false })
+                list.concat({id: list.length, text: description, url: url, completed: false })
             );
         }
         else{
@@ -55,15 +68,15 @@ const ListArea = (props) => {
     }
 
     return(
-        content === "list"?
+        content === "list"?        
         <div className = 'mainArea'>
-            {list.map(item => {
+            {list && list.map(item => {
                 return <ListItem
                     key = {item.id} 
                     onCheckChange = {() => handleCheckChange(item.id)} 
                     onEdit = {() => handleEdit(item.id)} 
                     text = {item.text} 
-                    checked = {item.checked}
+                    completed = {item.completed}
                     url = {item.url}>
                 </ListItem>
             })}
