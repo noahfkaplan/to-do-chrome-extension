@@ -24,7 +24,7 @@ steps:
       targetType: 'inline'
       script: |
         cd WebApp
-        npm run-script build
+        npm build
     
   - task: PowerShell@2
     inputs:
