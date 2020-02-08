@@ -21,6 +21,12 @@ const ListArea = () => {
     const [list, setList] = useState(null);
     const [content, setContent] = useState("list") //list or edit
     const [activeListItem, setActiveListItem] = useState(null);
+    const [error, setError] = useState(null);
+    const [updated, setUpdated] = useState(false);
+    
+    if(error){
+        throw error;
+    }
 
     useEffect(() => {
         async function fetchData() {            
@@ -28,9 +34,14 @@ const ListArea = () => {
             let listItems = await listService.GetListItemsByListId(0);
             setList(listItems);
         }
-        fetchData();
-    }, []);
-    
+        
+        fetchData()
+            .then(res => res)
+            .catch(err => setError(err));
+        
+        setUpdated(false)
+    }, [updated]);
+
     const handleCheckChange = id => event => {
         setList(
             list.map(item => item.id === id ? {...item, completed: event.target.checked} : item )
@@ -40,19 +51,14 @@ const ListArea = () => {
         setActiveListItem(list.find(item => item.id === id))
         setContent("edit")
     }
-    const handleSaveItem = (description, url) => {
+    const handleSaveItem = async (description, url) => {
         setContent("list");
-        if(!activeListItem){
-            setList(
-                list.concat({id: list.length, text: description, url: url, completed: false })
-            );
-        }
-        else{
-            setList(
-                list.map(item => item.id === activeListItem.id ? {...item, text: description, url: url} : item )
-            );
-            setActiveListItem(null);
-        }
+        
+        const listItem = { "listId": 0, "text": description, "url": url, "completed": false }
+        const listService = new ListService();
+        await listService.PostListItem(listItem)
+            .then(res => setUpdated(true))
+            .catch(err => setError(err));
     }
 
     const handleDelete = (id) => {

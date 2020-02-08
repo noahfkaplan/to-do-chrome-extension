@@ -8,4 +8,11 @@ export default class ListService {
             });
         return listItems;    
     };
+
+    async PostListItem(listItem) {
+        await fetch('http://localhost:5000/api/toDoList/listItem', {
+            method: 'POST',
+            body: JSON.stringify(listItem)
+        });
+    }
 }
