@@ -21,6 +21,11 @@ const ListArea = () => {
     const [list, setList] = useState(null);
     const [content, setContent] = useState("list") //list or edit
     const [activeListItem, setActiveListItem] = useState(null);
+    const [error, setError] = useState(null);
+    
+    if(error){
+        throw error;
+    }
 
     useEffect(() => {
         async function fetchData() {            
@@ -28,7 +33,10 @@ const ListArea = () => {
             let listItems = await listService.GetListItemsByListId(0);
             setList(listItems);
         }
-        fetchData();
+        
+        fetchData()
+            .then(res => res)
+            .catch(err => setError(err));
     }, []);
     
     const handleCheckChange = id => event => {
@@ -80,9 +88,9 @@ const ListArea = () => {
                     url = {item.url}>
                 </ListItem>
             })}
-            <Fab size="small" color="primary" onClick={() => handleAddItem()} className={classes.fab}>
+            {list && <Fab size="small" color="primary" onClick={() => handleAddItem()} className={classes.fab}>
                 <AddIcon aria-label="add"/>
-            </Fab>
+            </Fab>}
         </div> :
         <EditListItem item = {activeListItem} onSave = {handleSaveItem} onDelete = {() => handleDelete(activeListItem.id)}/>
     );
