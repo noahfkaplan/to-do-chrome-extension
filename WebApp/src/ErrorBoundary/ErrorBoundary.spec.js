@@ -1,14 +1,15 @@
-import React from "react"
-import { render, cleanup, fireEvent, wait } from "@testing-library/react";
+import React, {useState} from "react"
+import { render, cleanup, fireEvent, wait, spyOn } from "@testing-library/react";
 import ErrorBoundary from "./ErrorBoundary"
 
 describe("Error Boundary", () => {
     afterEach(cleanup);
     
     it("renders ErrorDisplay when Error thrown in child element", async () => {
+        jest.spyOn(console, 'error');
         const { getByText } = render(
             <ErrorBoundary>
-                <button onClick = {() => {throw new Error("test error")}}>test button</button>
+                <ComponentThrowsError />
             </ErrorBoundary>
         );
         
@@ -25,6 +26,22 @@ describe("Error Boundary", () => {
             </ErrorBoundary>
         );
 
+        const testButton = getByText("test button");
+        fireEvent.click(testButton);
+
         getByText("test button");
+
     });
 });
+
+const ComponentThrowsError = () => {
+    const [error, setError] = useState(null)
+    if(error){
+        throw error;
+    }
+    return(
+        <button onClick = {() => setError(new Error("Test Error"))}>
+            test button    
+        </button>
+    );
+}
