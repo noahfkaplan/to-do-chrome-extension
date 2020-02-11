@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, request
 from flask import jsonify
 import json
 from Services.ListService import ListService
@@ -11,3 +11,9 @@ CORS(app)
 def toDoList(listId):
     result = ListService.getListItemsByListId(listId)
     return jsonify({'items': result})
+
+@app.route('/api/toDoList/listItem', methods=['POST'])
+def listItem():
+    listItem = request.get_data()
+    result = ListService.insertListItem(listItem)
+    return str(result.acknowledged)
