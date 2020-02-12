@@ -4,9 +4,13 @@ import ListArea from './ListArea';
 import ListService from '../api/Services/ListService'
 
 const mockGetListItemsByListId = jest.fn();
+const mockDeleteListItemByItemId = jest.fn();
 jest.mock('../api/Services/ListService', () => {
   return jest.fn().mockImplementation(() => {
-    return {GetListItemsByListId: mockGetListItemsByListId};
+    return {
+        GetListItemsByListId: mockGetListItemsByListId,
+        DeleteListItemByItemId: mockDeleteListItemByItemId,
+    };
   });
 });
 
@@ -15,6 +19,7 @@ describe("List Area", () => {
     beforeEach(() => {
         ListService.mockClear();
         mockGetListItemsByListId.mockClear();
+        mockDeleteListItemByItemId.mockClear();
     })
 
     it.each([1, 2, 3])("renders correct number of text areas for %p initial list item", async (numItems) => {
@@ -53,7 +58,12 @@ describe("List Area", () => {
         }
         mockGetListItemsByListId.mockImplementation((num) => {
             return defaultItems;
+        });
+        mockDeleteListItemByItemId.mockImplementation((id) => {
+            defaultItems.pop();
+            return new Promise(()=>{return});
         })
+
         const { getAllByLabelText, findByText } = render(<ListArea/>);
         await wait(() => expect(getAllByLabelText("Default Item checkbox").length).toBe(2));
 
@@ -63,6 +73,7 @@ describe("List Area", () => {
         const deleteButton = await findByText("Delete");
         fireEvent.click(deleteButton);
 
+        expect(mockDeleteListItemByItemId).toBeCalled();
         await wait(() => expect(getAllByLabelText("Default Item checkbox").length).toBe(1));
     });
 });
