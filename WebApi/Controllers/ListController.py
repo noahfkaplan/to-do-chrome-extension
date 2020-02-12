@@ -17,3 +17,7 @@ def listItem():
     listItem = request.get_data()
     result = ListService.insertListItem(listItem)
     return str(result.acknowledged)
+
+@app.route('/api/toDoList/listItem/<string:itemId>', methods=['DELETE'])
+def deleteListItem(itemId):
+    result = ListService.deleteListItem(itemId)
