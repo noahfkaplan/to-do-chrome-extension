@@ -51,21 +51,23 @@ const ListArea = () => {
         setContent("edit")
     }
     const handleSaveItem = async (description, url) => {
-        setContent("list");
         
         const listItem = { "listId": 0, "text": description, "url": url, "completed": false }
         const listService = new ListService();
         await listService.PostListItem(listItem)
             .then(res => setUpdated(true))
             .catch(err => setError(err));
+        
+        setContent("list");
     }
 
     const handleDelete = async (id) => {
-        setContent("list");
         const listService = new ListService();
         await listService.DeleteListItemByItemId(id)
             .then(res => setUpdated(true))
             .catch(err => setError(err));
+            
+        setContent("list");
     }
 
     const handleAddItem = () => {

@@ -4,7 +4,6 @@ export default class ListService {
         await fetch('http://localhost:5000/api/toDoList/'+Id)
             .then(res => res.json())
             .then((data) => {
-                console.log(data)
                 listItems = data.items.map((item) => ({id:item._id, listId:item.listId, text:item.text, url:item.url, completed:item.completed}));
             });
         return listItems;    
@@ -20,6 +19,7 @@ export default class ListService {
     async DeleteListItemByItemId(Id){
         await fetch('http://localhost:5000/api/toDoList/listItem/'+Id, {
             method: 'DELETE'
-        });
+        })
+        .then(res => res.json());
     }
 }

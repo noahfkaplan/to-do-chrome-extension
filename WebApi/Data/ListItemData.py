@@ -31,4 +31,4 @@ class ListItemData():
         result = collection.delete_one({
             '_id': ObjectId(itemId)
         })
-        return result
+        return result.deleted_count
