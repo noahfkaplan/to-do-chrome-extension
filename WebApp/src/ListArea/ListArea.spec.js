@@ -53,27 +53,25 @@ describe("List Area", () => {
 
     it("removed list item when edit button is clicked, and delete selected", async () => {
         const defaultItems = []
-        for(let i = 0; i < 2; i++){
-            defaultItems.push({"completed": false,"id": i,"listId": 0,"text": "Default Item","url": "http://www.google.com"})
-        }
+        defaultItems.push({"completed": false,"id": 1,"listId": 0,"text": "Default Item","url": "http://www.google.com"});
+
         mockGetListItemsByListId.mockImplementation((num) => {
             return defaultItems;
         });
+
         mockDeleteListItemByItemId.mockImplementation((id) => {
-            defaultItems.pop();
-            return new Promise(()=>{return});
-        })
+            return Promise.resolve(id)
+        });
 
-        const { getAllByLabelText, findByText } = render(<ListArea/>);
-        await wait(() => expect(getAllByLabelText("Default Item checkbox").length).toBe(2));
+        const { getByLabelText, findByText, findByLabelText } = render(<ListArea/>);
+        await findByLabelText("Default Item checkbox");
 
-        const editButton = getAllByLabelText("edit");
-        fireEvent.click(editButton[0]);
+        const editButton = getByLabelText("edit");
+        fireEvent.click(editButton);
 
         const deleteButton = await findByText("Delete");
         fireEvent.click(deleteButton);
 
-        expect(mockDeleteListItemByItemId).toBeCalled();
-        await wait(() => expect(getAllByLabelText("Default Item checkbox").length).toBe(1));
+        expect(mockDeleteListItemByItemId).toBeCalledWith(defaultItems[0].id);
     });
 });
