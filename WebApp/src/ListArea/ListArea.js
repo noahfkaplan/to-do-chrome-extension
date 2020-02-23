@@ -13,8 +13,6 @@ const useStyles = makeStyles(theme => ({
     }
 }));
 
-
-
 const ListArea = () => { 
        
     const classes = useStyles();
@@ -39,7 +37,8 @@ const ListArea = () => {
             .then(res => res)
             .catch(err => setError(err));
         
-        setUpdated(false)
+        setActiveListItem(null)
+        setUpdated(false);
     }, [updated]);
 
     const handleCheckChange = id => event => {
@@ -52,21 +51,23 @@ const ListArea = () => {
         setContent("edit")
     }
     const handleSaveItem = async (description, url) => {
-        setContent("list");
         
         const listItem = { "listId": 0, "text": description, "url": url, "completed": false }
         const listService = new ListService();
         await listService.PostListItem(listItem)
             .then(res => setUpdated(true))
             .catch(err => setError(err));
+        
+        setContent("list");
     }
 
-    const handleDelete = (id) => {
+    const handleDelete = async (id) => {
+        const listService = new ListService();
+        await listService.DeleteListItemByItemId(id)
+            .then(res => setUpdated(true))
+            .catch(err => setError(err));
+            
         setContent("list");
-        setList(
-            list.filter(item => item.id !== id)
-        );
-        setActiveListItem(null);
     }
 
     const handleAddItem = () => {

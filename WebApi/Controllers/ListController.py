@@ -17,3 +17,15 @@ def listItem():
     listItem = request.get_data()
     result = ListService.insertListItem(listItem)
     return str(result.acknowledged)
+
+@app.route('/api/toDoList/listItem/<string:itemId>', methods=['DELETE'])
+def deleteListItem(itemId):
+    itemDeleted = ListService.deleteListItem(itemId)
+    if(itemDeleted >= 1):
+        response = jsonify(message="Item Deleted")
+        response.status_code = 200
+        return response
+    else:
+        response = jsonify(error="No Item Deleted")
+        response.status_code = 400
+        return response

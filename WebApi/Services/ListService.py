@@ -12,9 +12,12 @@ class ListService():
         return items
 
     def insertListItem(listItem):
-        print(listItem)
-        
         listItemData = ListItemData()
         result = listItemData.insert(json.loads(listItem))
+        return result
+
+    def deleteListItem(itemId):
+        listItemData = ListItemData()
+        result = listItemData.deleteByItemId(itemId)
         return result
         

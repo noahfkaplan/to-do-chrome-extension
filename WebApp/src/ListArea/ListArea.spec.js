@@ -4,9 +4,13 @@ import ListArea from './ListArea';
 import ListService from '../api/Services/ListService'
 
 const mockGetListItemsByListId = jest.fn();
+const mockDeleteListItemByItemId = jest.fn();
 jest.mock('../api/Services/ListService', () => {
   return jest.fn().mockImplementation(() => {
-    return {GetListItemsByListId: mockGetListItemsByListId};
+    return {
+        GetListItemsByListId: mockGetListItemsByListId,
+        DeleteListItemByItemId: mockDeleteListItemByItemId,
+    };
   });
 });
 
@@ -15,6 +19,7 @@ describe("List Area", () => {
     beforeEach(() => {
         ListService.mockClear();
         mockGetListItemsByListId.mockClear();
+        mockDeleteListItemByItemId.mockClear();
     })
 
     it.each([1, 2, 3])("renders correct number of text areas for %p initial list item", async (numItems) => {
@@ -48,21 +53,25 @@ describe("List Area", () => {
 
     it("removed list item when edit button is clicked, and delete selected", async () => {
         const defaultItems = []
-        for(let i = 0; i < 2; i++){
-            defaultItems.push({"completed": false,"id": i,"listId": 0,"text": "Default Item","url": "http://www.google.com"})
-        }
+        defaultItems.push({"completed": false,"id": 1,"listId": 0,"text": "Default Item","url": "http://www.google.com"});
+
         mockGetListItemsByListId.mockImplementation((num) => {
             return defaultItems;
-        })
-        const { getAllByLabelText, findByText } = render(<ListArea/>);
-        await wait(() => expect(getAllByLabelText("Default Item checkbox").length).toBe(2));
+        });
 
-        const editButton = getAllByLabelText("edit");
-        fireEvent.click(editButton[0]);
+        mockDeleteListItemByItemId.mockImplementation((id) => {
+            return Promise.resolve(id)
+        });
+
+        const { getByLabelText, findByText, findByLabelText } = render(<ListArea/>);
+        await findByLabelText("Default Item checkbox");
+
+        const editButton = getByLabelText("edit");
+        fireEvent.click(editButton);
 
         const deleteButton = await findByText("Delete");
         fireEvent.click(deleteButton);
 
-        await wait(() => expect(getAllByLabelText("Default Item checkbox").length).toBe(1));
+        expect(mockDeleteListItemByItemId).toBeCalledWith(defaultItems[0].id);
     });
 });
