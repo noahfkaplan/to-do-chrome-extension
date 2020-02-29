@@ -1,9 +1,13 @@
 from pymongo import MongoClient
 from bson.objectid import ObjectId
-# connect to MongoDB, change the << MONGODB URL >> to reflect your own connection string
-class ListItemData():
+
+class ListItemData(object):
+
+    def __init__(self, mongoAddress):
+        self.mongoAddress = mongoAddress
+        
     def getByListId(self, listId):
-        client = MongoClient("mongodb://localhost:27017/")
+        client = MongoClient(self.mongoAddress)
         db = client.toDoListDB
         collection = db.listItems
         results = []
@@ -13,7 +17,7 @@ class ListItemData():
         return results
 
     def insert(self, listItem):
-        client = MongoClient("mongodb://localhost:27017/")
+        client = MongoClient(self.mongoAddress)
         db = client.toDoListDB
         collection = db.listItems
         result = collection.insert_one({
@@ -25,7 +29,7 @@ class ListItemData():
         return result
     
     def deleteByItemId(self, itemId):
-        client = MongoClient("mongodb://localhost:27017/")
+        client = MongoClient(self.mongoAddress)
         db = client.toDoListDB
         collection = db.listItems
         result = collection.delete_one({
