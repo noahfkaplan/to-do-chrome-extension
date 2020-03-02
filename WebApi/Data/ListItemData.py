@@ -3,11 +3,11 @@ from bson.objectid import ObjectId
 
 class ListItemData(object):
 
-    def __init__(self, mongoAddress):
-        self.mongoAddress = mongoAddress
+    def __init__(self, db):
+        self.db = db
         
     def getByListId(self, listId):
-        client = MongoClient(self.mongoAddress)
+        client = self.db
         db = client.toDoListDB
         collection = db.listItems
         results = []
@@ -17,7 +17,7 @@ class ListItemData(object):
         return results
 
     def insert(self, listItem):
-        client = MongoClient(self.mongoAddress)
+        client = self.db
         db = client.toDoListDB
         collection = db.listItems
         result = collection.insert_one({
@@ -29,7 +29,7 @@ class ListItemData(object):
         return result
     
     def deleteByItemId(self, itemId):
-        client = MongoClient(self.mongoAddress)
+        client = self.db
         db = client.toDoListDB
         collection = db.listItems
         result = collection.delete_one({
