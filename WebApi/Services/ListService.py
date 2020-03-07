@@ -12,11 +12,15 @@ class ListService():
         return items
 
     def insertOrUpdateListItem(listItem):
+        item = json.loads(listItem)
+        print(item)
         listItemData = ListItemData()
-        if getListItemByListItemId(listItem) is None:
-            result = listItemData.insert(json.loads(listItem))
-        else:            
-            result = listItemData.update(listItem)
+        if item["_id"] == "null":
+            result = listItemData.insert(item)
+        else:       
+            print("updating")     
+            result = listItemData.updateListItem(item)
+            print(result)
         return result
 
     def deleteListItem(itemId):

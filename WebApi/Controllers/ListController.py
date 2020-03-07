@@ -16,7 +16,9 @@ def toDoList(listId):
 def listItem():
     listItem = request.get_data()
     result = ListService.insertOrUpdateListItem(listItem)
-    return str(result.acknowledged)
+    response = jsonify(message="Item Updated/Inserted")
+    response.status_code = 200
+    return response
 
 @app.route('/api/toDoList/listItem/<string:itemId>', methods=['DELETE'])
 def deleteListItem(itemId):

@@ -24,12 +24,14 @@ class ListItemData():
         db = client.toDoListDB
         collection = db.listItems
         return collection.find_one_and_update(
-            {'_id': listItem._id},
+            {'_id': ObjectId(listItem["_id"])},
             {
-                'listId': listItem["listId"], 
-                'text': listItem["text"],
-                'url': listItem["url"],
-                'completed': listItem["completed"],
+                '$set': {
+                    'listId': listItem["listId"], 
+                    'text': listItem["text"],
+                    'url': listItem["url"],
+                    'completed': listItem["completed"],
+                }
             })
 
     def insert(self, listItem):
