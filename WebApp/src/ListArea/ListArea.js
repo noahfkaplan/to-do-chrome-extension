@@ -41,10 +41,13 @@ const ListArea = () => {
         setUpdated(false);
     }, [updated]);
 
-    const handleCheckChange = id => event => {
-        setList(
-            list.map(item => item.id === id ? {...item, completed: event.target.checked} : item )
-        );
+    const handleCheckChange = async (id, event) => {
+        console.log("check changes");
+        const listItem = { "_id": id, "completed": event.target.checked };
+        const listService = new ListService();
+        await listService.PostListItem(listItem)
+            .then()
+            .catch(err => setError(err));
     };
     const handleEdit = id => {
         setActiveListItem(list.find(item => item.id === id))
