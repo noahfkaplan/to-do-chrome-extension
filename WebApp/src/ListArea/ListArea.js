@@ -41,8 +41,8 @@ const ListArea = () => {
         setUpdated(false);
     }, [updated]);
 
-    const handleCheckChange = async (id, event) => {
-        console.log("check changes");
+    const handleCheckChange = async (event, id) => {
+        console.log(event)
         const listItem = { "_id": id, "completed": event.target.checked };
         const listService = new ListService();
         await listService.PostListItem(listItem)
@@ -83,7 +83,7 @@ const ListArea = () => {
             {list && list.map(item => {
                 return <ListItem
                     key = {item.id} 
-                    onCheckChange = {() => handleCheckChange(item.id)} 
+                    onCheckChange = {(event) => handleCheckChange(event, item.id)} 
                     onEdit = {() => handleEdit(item.id)} 
                     text = {item.text} 
                     completed = {item.completed}

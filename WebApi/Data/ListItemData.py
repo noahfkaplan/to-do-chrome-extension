@@ -23,6 +23,10 @@ class ListItemData():
         client = MongoClient("mongodb://localhost:27017/")
         db = client.toDoListDB
         collection = db.listItems
+
+        previousItem = getListItemByItemId(listItem["listId"])
+        print(listItem["text"])
+
         return collection.find_one_and_update(
             {'_id': ObjectId(listItem["_id"])},
             {
