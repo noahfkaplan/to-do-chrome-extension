@@ -46,7 +46,7 @@ const ListArea = () => {
         const listItem = { "_id": id, "completed": event.target.checked };
         const listService = new ListService();
         await listService.PostListItem(listItem)
-            .then()
+            .then(res => setUpdated(true))
             .catch(err => setError(err));
     };
     const handleEdit = id => {
