@@ -11,9 +11,14 @@ class ListService():
         items = listItemData.getByListId(listId)
         return items
 
-    def insertListItem(listItem):
-        listItemData = ListItemData("mongodb://localhost:27017/")
-        result = listItemData.insert(json.loads(listItem))
+    def insertOrUpdateListItem(listItem):
+        item = json.loads(listItem)
+        listItemData = ListItemData()
+        if item["_id"] == "null":
+            result = listItemData.insert(item)
+        else:       
+            print("updating")     
+            result = listItemData.updateListItem(item)   
         return result
 
     def deleteListItem(itemId):

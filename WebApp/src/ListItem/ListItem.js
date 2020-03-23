@@ -30,7 +30,7 @@ const ListItem = (props) =>{
         <div className={classes.container}>
             <Checkbox
                 checked={props.completed}
-                onChange={props.onCheckChange()}
+                onChange={(event) => props.onCheckChange(event)}
                 aria-checked={props.completed}
                 value={props.text}
                 title={"checkbox"}

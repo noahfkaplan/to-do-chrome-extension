@@ -41,10 +41,13 @@ const ListArea = () => {
         setUpdated(false);
     }, [updated]);
 
-    const handleCheckChange = id => event => {
-        setList(
-            list.map(item => item.id === id ? {...item, completed: event.target.checked} : item )
-        );
+    const handleCheckChange = async (event, id) => {
+        console.log(event)
+        const listItem = { "_id": id, "completed": event.target.checked };
+        const listService = new ListService();
+        await listService.PostListItem(listItem)
+            .then(res => setUpdated(true))
+            .catch(err => setError(err));
     };
     const handleEdit = id => {
         setActiveListItem(list.find(item => item.id === id))
@@ -52,7 +55,7 @@ const ListArea = () => {
     }
     const handleSaveItem = async (description, url) => {
         
-        const listItem = { "listId": 0, "text": description, "url": url, "completed": false }
+        const listItem = { "_id": activeListItem? activeListItem.id: null, "listId": 0, "text": description, "url": url, "completed": false }
         const listService = new ListService();
         await listService.PostListItem(listItem)
             .then(res => setUpdated(true))
@@ -80,7 +83,7 @@ const ListArea = () => {
             {list && list.map(item => {
                 return <ListItem
                     key = {item.id} 
-                    onCheckChange = {() => handleCheckChange(item.id)} 
+                    onCheckChange = {(event) => handleCheckChange(event, item.id)} 
                     onEdit = {() => handleEdit(item.id)} 
                     text = {item.text} 
                     completed = {item.completed}

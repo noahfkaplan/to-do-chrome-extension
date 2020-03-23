@@ -16,6 +16,40 @@ class ListItemData(object):
             results.append(result)
         return results
 
+    def getListItemByItemId(self, listItemId):
+        client = MongoClient("mongodb://localhost:27017/")
+        db = client.toDoListDB
+        collection = db.listItems
+        results = []
+        return collection.find_one({'_id': ObjectId(listItemId)})
+
+    def updateListItem(self, listItem):
+        client = MongoClient("mongodb://localhost:27017/")
+        db = client.toDoListDB
+        collection = db.listItems
+        print(listItem)
+        if "text" in listItem.keys():
+            return collection.find_one_and_update(
+                {'_id': ObjectId(listItem["_id"])},
+                {
+                    '$set': {
+                        'listId': listItem["listId"], 
+                        'text': listItem["text"],
+                        'url': listItem["url"],
+                        'completed': listItem["completed"],
+                    }
+                }
+            )
+        else:
+            return collection.find_one_and_update(
+                {'_id': ObjectId(listItem["_id"])},
+                {
+                    '$set':{
+                        'completed': listItem["completed"],
+                    }
+                }
+            )
+
     def insert(self, listItem):
         client = MongoClient(self.mongoAddress)
         db = client.toDoListDB
