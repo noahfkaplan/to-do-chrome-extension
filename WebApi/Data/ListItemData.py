@@ -2,12 +2,9 @@ from pymongo import MongoClient
 from bson.objectid import ObjectId
 
 class ListItemData(object):
-
-    def __init__(self, mongoAddress):
-        self.mongoAddress = mongoAddress
         
     def getByListId(self, listId):
-        client = MongoClient(self.mongoAddress)
+        client = MongoClient("mongodb://localhost:27017/")
         db = client.toDoListDB
         collection = db.listItems
         results = []
@@ -51,7 +48,7 @@ class ListItemData(object):
             )
 
     def insert(self, listItem):
-        client = MongoClient(self.mongoAddress)
+        client = MongoClient("mongodb://localhost:27017/")
         db = client.toDoListDB
         collection = db.listItems
         result = collection.insert_one({
@@ -63,7 +60,7 @@ class ListItemData(object):
         return result
     
     def deleteByItemId(self, itemId):
-        client = MongoClient(self.mongoAddress)
+        client = MongoClient("mongodb://localhost:27017/")
         db = client.toDoListDB
         collection = db.listItems
         result = collection.delete_one({
