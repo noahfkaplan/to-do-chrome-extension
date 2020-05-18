@@ -5,24 +5,22 @@ import json
 
 class ListService():
     def getListItemsByListId(listId):
-        #returning the default list item until the db is set up
         #for each list item with listID = listId, create dictionary and return
-        listItemData = ListItemData("mongodb://localhost:27017/")
+        listItemData = ListItemData()
         items = listItemData.getByListId(listId)
         return items
 
     def insertOrUpdateListItem(listItem):
         item = json.loads(listItem)
         listItemData = ListItemData()
-        if item["_id"] == "null":
+        if not item["_id"]:
             result = listItemData.insert(item)
-        else:       
-            print("updating")     
+        else:    
             result = listItemData.updateListItem(item)   
         return result
 
     def deleteListItem(itemId):
-        listItemData = ListItemData("mongodb://localhost:27017/")
+        listItemData = ListItemData()
         result = listItemData.deleteByItemId(itemId)
         return result
         
