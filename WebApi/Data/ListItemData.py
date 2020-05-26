@@ -24,28 +24,19 @@ class ListItemData(object):
         client = MongoClient("mongodb://localhost:27017/")
         db = client.toDoListDB
         collection = db.listItems
-        print(listItem)
-        if "text" in listItem.keys():
-            return collection.find_one_and_update(
-                {'_id': ObjectId(listItem["_id"])},
-                {
-                    '$set': {
-                        'listId': listItem["listId"], 
-                        'text': listItem["text"],
-                        'url': listItem["url"],
-                        'completed': listItem["completed"],
-                    }
+        query = {'_id': ObjectId(listItem["_id"])}
+        previousDocument = collection.find_one(query)
+        return collection.find_one_and_update(
+            query,
+            {
+                '$set': {
+                    'listId': listItem["listId"] if "listId" in listItem else previousDocument["listId"], 
+                    'text': listItem["text"] if "text" in listItem else previousDocument["text"],
+                    'url': listItem["url"] if "url" in listItem else previousDocument["url"],
+                    'completed': listItem["completed"] if "completed" in listItem else previousDocument["completed"],
                 }
-            )
-        else:
-            return collection.find_one_and_update(
-                {'_id': ObjectId(listItem["_id"])},
-                {
-                    '$set':{
-                        'completed': listItem["completed"],
-                    }
-                }
-            )
+            }
+        )
 
     def insert(self, listItem):
         client = MongoClient("mongodb://localhost:27017/")

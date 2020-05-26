@@ -55,7 +55,7 @@ const ListArea = () => {
     }
     const handleSaveItem = async (description, url) => {
         
-        const listItem = { "_id": activeListItem? activeListItem.id: null, "listId": 0, "text": description, "url": url, "completed": false }
+        const listItem = { "_id": activeListItem? activeListItem.id: null, "listId": 0, "text": description, "url": url }
         const listService = new ListService();
         await listService.PostListItem(listItem)
             .then(res => setUpdated(true))

@@ -15,7 +15,7 @@ class ListService():
         listItemData = ListItemData()
         if not item["_id"]:
             result = listItemData.insert(item)
-        else:    
+        else:
             result = listItemData.updateListItem(item)   
         return result
 
@@ -23,4 +23,3 @@ class ListService():
         listItemData = ListItemData()
         result = listItemData.deleteByItemId(itemId)
         return result
-        
