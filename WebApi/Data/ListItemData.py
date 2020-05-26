@@ -46,7 +46,7 @@ class ListItemData(object):
             'listId': listItem["listId"], 
             'text': listItem["text"],
             'url': listItem["url"],
-            'completed': listItem["completed"],
+            'completed': listItem["completed"] if "completed" in listItem else False,
         })
         return result
     
