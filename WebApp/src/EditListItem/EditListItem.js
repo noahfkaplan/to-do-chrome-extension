@@ -22,7 +22,7 @@ const EditListItem = (props) => {
     const [url, setUrl] = useState(props.item && props.item.url);
     const [description, setDescription] = useState(props.item && props.item.text);
     return(
-        <form onSubmit={() => props.onSave(description, url)} className = 'mainArea'>
+        <form onSubmit={() => props.onSave(description, url)} className = 'mainArea' data-testid = 'edit-form'>
             <TextField
                 label="Description"
                 margin="dense"
