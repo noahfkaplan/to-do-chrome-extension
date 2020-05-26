@@ -1,7 +1,7 @@
 from flask import Flask, request
 from flask import jsonify
 import json
-from Services.ListService import ListService
+from WebApi.Services.ListService import ListService
 from flask_cors import CORS
 
 app = Flask(__name__)
