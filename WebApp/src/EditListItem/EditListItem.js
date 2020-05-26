@@ -22,7 +22,7 @@ const EditListItem = (props) => {
     const [url, setUrl] = useState(props.item && props.item.url);
     const [description, setDescription] = useState(props.item && props.item.text);
     return(
-        <div className = 'mainArea'>
+        <form onSubmit={() => props.onSave(description, url)} className = 'mainArea' data-testid = 'edit-form'>
             <TextField
                 label="Description"
                 margin="dense"
@@ -59,13 +59,13 @@ const EditListItem = (props) => {
                     variant="contained"
                     color="primary"
                     size="small"
-                    onClick={() => props.onSave(description, url)}
                     startIcon={<SaveIcon />}
+                    type="submit"
                 >
                     Save
                 </Button>
             </div>
-        </div>
+        </form>
     );
 }
 

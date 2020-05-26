@@ -21,26 +21,26 @@ describe("Edit List Item", () => {
         renderEditListItem(jest.fn(), jest.fn(), testItem);
     });
 
-    it("fills description with editted item's text", () => {
-        const { getByLabelText, debug } = renderEditListItem(jest.fn(), jest.fn(), testItem);
+    it("fills description with edited item's text", () => {
+        const { getByLabelText } = renderEditListItem(jest.fn(), jest.fn(), testItem);
         const description = getByLabelText("editDescription");
         expect(description.querySelector("input").value).toBe(testItem.text);
     });
 
-    it("fills url with editted item's url", () => {
-        const { getByLabelText, debug } = renderEditListItem(jest.fn(), jest.fn(), testItem);
+    it("fills url with edited item's url", () => {
+        const { getByLabelText } = renderEditListItem(jest.fn(), jest.fn(), testItem);
         const url = getByLabelText("editUrl");
         expect(url.querySelector("input").value).toBe(testItem.url);
     });
 
     it("renders description with no value when null item passed in", () => {
-        const { getByLabelText, debug } = renderEditListItem(jest.fn(), jest.fn(), null);
+        const { getByLabelText } = renderEditListItem(jest.fn(), jest.fn(), null);
         const description = getByLabelText("editDescription");
         expect(description.querySelector("input").value).toBe('');
     });
 
     it("renders url with no value when null item passed in", () => {
-        const { getByLabelText, debug } = renderEditListItem(jest.fn(), jest.fn(), null);
+        const { getByLabelText } = renderEditListItem(jest.fn(), jest.fn(), null);
         const url = getByLabelText("editUrl");
         expect(url.querySelector("input").value).toBe('');
     })
@@ -65,11 +65,11 @@ describe("Edit List Item", () => {
         expect(onDelete).toBeCalled();
     });
 
-    it("calls onSave with description and url when save button is clicked", () => {
-        const onSave = jest.fn()
-        const { getByText } = renderEditListItem(onSave, jest.fn(), testItem);
-        const saveButton = getByText("Save");
-        fireEvent.click(saveButton);
-        expect(onSave).toBeCalledWith(testItem.text, testItem.url);
-    });
+    it("calls onSave with description and url when the form is submitted", () => {
+        const onSave = jest.fn();
+        const { getByTestId } = renderEditListItem(onSave, jest.fn(), testItem);
+        const form = getByTestId("edit-form");
+        fireEvent.submit(form);
+        expect(onSave).toBeCalledWith(testItem.text, testItem.url)
+    })
 });
