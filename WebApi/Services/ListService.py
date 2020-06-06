@@ -1,5 +1,3 @@
-from WebApi.Models.ListItem import ListItem
-from WebApi.Models.ToDoList import ToDoList
 from WebApi.Data.ListItemData import ListItemData
 import json
 
